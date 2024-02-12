@@ -1,0 +1,25 @@
+############### Server ###############
+server:
+  port: 8080
+
+###############  DB  ###############
+spring:
+  sql:
+    init:
+      mode: always
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test
+    hikari:
+      username: sa
+      password:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      format_sql: true
+    open-in-view: false
