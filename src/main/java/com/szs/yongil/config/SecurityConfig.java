@@ -1,5 +1,8 @@
 package com.szs.yongil.config;
 
+import com.szs.yongil.util.jwt.JwtAccessDeniedHandler;
+import com.szs.yongil.util.jwt.JwtAuthenticationEntryPoint;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,12 +17,16 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     /**
      * Security setting bean
      */
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -28,17 +35,27 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
+                // JWT 토큰 ERROR handler
+                .exceptionHandling(exceptionHandling ->
+                        exceptionHandling
+                                .accessDeniedHandler(jwtAccessDeniedHandler)
+                                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                )
                 // H2 웹 콘솔의 iframe이 정삭작동 하기 위해 X-Frame-Options header 값 SAMEORIGIN로 변경
                 // 브라우저의 모든 iframe에 대한 모든 요청을 허용하면 디도스 공격 등 취약해 질 수 있다.
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
 
                 // Method 제어
-                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers(PathRequest.toH2Console()).permitAll()
-                        .anyRequest().authenticated()
+                .authorizeHttpRequests(authorizeHttpRequests ->
+                        authorizeHttpRequests
+                                .requestMatchers("/szs/signup").permitAll()
+                                .requestMatchers("/error/**").permitAll()
+                                .requestMatchers(PathRequest.toH2Console()).permitAll()
+                                .anyRequest().authenticated()
                 )
 
 
                 .build();
     }
+
 }
