@@ -1,8 +1,7 @@
 package com.szs.yongil.Service;
 
-import com.szs.yongil.domain.member.MemberEntity;
 import com.szs.yongil.dto.member.MemberSignDto;
-import com.szs.yongil.service.member.MemberService;
+import com.szs.yongil.service.member.MemberServiceImpl;
 import com.szs.yongil.util.exception.ApiCustomException;
 import com.szs.yongil.vo.member.MemberSignVO;
 import org.assertj.core.api.Assertions;
@@ -17,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberServiceTest {
 
     @Autowired
-    MemberService memberService;
+    MemberServiceImpl memberServiceImpl;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -32,7 +31,7 @@ public class MemberServiceTest {
         memberSignDto.setRegNo("910411-1656116");
 
         // when
-        MemberSignVO signup = memberService.signup(memberSignDto);
+        MemberSignVO signup = memberServiceImpl.signup(memberSignDto);
 
         // then
         Assertions.assertThat(memberSignDto.getUserId()).isEqualTo(signup.getUserId());
@@ -54,7 +53,7 @@ public class MemberServiceTest {
         memberSignA.setRegNo("910411-1656116");
 
         // when
-        MemberSignVO signup = memberService.signup(memberSignA);
+        MemberSignVO signup = memberServiceImpl.signup(memberSignA);
 
         // then
         Assertions.assertThat(memberSignA.getUserId()).isEqualTo(signup.getUserId());

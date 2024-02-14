@@ -1,4 +1,4 @@
-package com.szs.yongil.util.jwt;
+package com.szs.yongil.common.jwt;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

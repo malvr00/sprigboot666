@@ -3,7 +3,6 @@ package com.szs.yongil.vo.exception;
 import com.szs.yongil.util.exception.enums.ErrorEnum;
 import lombok.Builder;
 import lombok.Data;
-import org.h2.api.ErrorCode;
 import org.springframework.http.ResponseEntity;
 
 @Data

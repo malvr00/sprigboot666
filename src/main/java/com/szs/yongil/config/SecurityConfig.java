@@ -1,7 +1,8 @@
 package com.szs.yongil.config;
 
-import com.szs.yongil.util.jwt.JwtAccessDeniedHandler;
-import com.szs.yongil.util.jwt.JwtAuthenticationEntryPoint;
+import com.szs.yongil.common.jwt.TokenProvider;
+import com.szs.yongil.common.jwt.JwtAccessDeniedHandler;
+import com.szs.yongil.common.jwt.JwtAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -16,13 +17,12 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final TokenProvider tokenProvider;
 
     /**
      * Security setting bean
@@ -32,6 +32,7 @@ public class SecurityConfig {
         return http
                 // JWT 토큰을 사용하는 방식이기 때문에 csrf와 sesstion을 사용하지 않습니다.
                 .csrf(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
@@ -49,13 +50,31 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
                                 .requestMatchers("/szs/signup").permitAll()
+                                .requestMatchers("/szs/login").permitAll()
                                 .requestMatchers("/error/**").permitAll()
                                 .requestMatchers(PathRequest.toH2Console()).permitAll()
                                 .anyRequest().authenticated()
                 )
 
+                .with(new JwtSecurityConfig(tokenProvider), customizer -> {})
+
 
                 .build();
     }
+
+//    // AuthenticationManager password 인증
+//    private AuthenticationManager authenticationManager(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(memberService).passwordEncoder(passwordEncoder);
+//        return auth.build();
+//    }
+//
+//    // Login Authentication
+//    private Filter getAuthenticationFilter() throws Exception {
+//        AuthenticationFilter authenticationFilter = new AuthenticationFilter(memberService, env);
+//        AuthenticationManagerBuilder builder = new AuthenticationManagerBuilder(objectPostProcessor);
+//        authenticationFilter.setFilterProcessesUrl("/szs/login");
+//        authenticationFilter.setAuthenticationManager(authenticationManager(builder));
+//        return authenticationFilter;
+//    }
 
 }

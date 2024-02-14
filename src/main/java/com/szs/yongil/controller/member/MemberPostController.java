@@ -1,7 +1,8 @@
 package com.szs.yongil.controller.member;
 
+import com.szs.yongil.dto.member.MemberLoginDto;
 import com.szs.yongil.dto.member.MemberSignDto;
-import com.szs.yongil.service.member.MemberService;
+import com.szs.yongil.service.member.MemberServiceImpl;
 import com.szs.yongil.util.exception.ApiCustomException;
 import com.szs.yongil.util.exception.enums.ErrorEnum;
 import com.szs.yongil.util.member.MemberUtil;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MemberPostController {
 
-    private final MemberService memberService;
+    private final MemberServiceImpl memberServiceImpl;
     private final MemberUtil memberUtil;
 
     @PostMapping("/signup")
@@ -37,7 +38,7 @@ public class MemberPostController {
             throw new ApiCustomException(ErrorEnum.USER_INFO_02);
         }
 
-        MemberSignVO result = memberService.signup(memberSignDto);
+        MemberSignVO result = memberServiceImpl.signup(memberSignDto);
         return ResponseEntity.ok(result);
     }
 }
