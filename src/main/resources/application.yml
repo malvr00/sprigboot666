@@ -29,7 +29,12 @@ logging:
   level:
     root: debug
 
-###############  Logging  ###############
+###############  JWT  ###############
 jwt:
   secret: c3ByaW5nLWJvb3Qtc3pzLXByb2plY3QtdG9rZW4tc2VjcmV0LWtleS1pbmZvLWp3dC1tYWluLWtleXNwcmluZy1ib290LXN6cy1wcm9qZWN0LXRva2VuLXNlY3JldC1rZXktaW5mby1qd3QtbWFpbi1rZXk=
   expiration_time: 86400
+
+###############  AES128  ###############
+aes:
+#  SZS-AES128 base64
+  secret: U1pTLUFFUzEyOA==

@@ -1,5 +1,6 @@
 package com.szs.yongil.entity;
 
+import com.szs.yongil.config.AES128Config;
 import com.szs.yongil.domain.member.MemberEntity;
 import com.szs.yongil.repository.member.MemberRepository;
 import org.assertj.core.api.Assertions;
@@ -19,6 +20,9 @@ public class MemberEntityTest {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    AES128Config aes128Config;
+
     /**
      * 멤버 저장 테스트
      */
@@ -30,7 +34,7 @@ public class MemberEntityTest {
                 .userId("hong12")
                 .name("홍길동")
                 .password(passwordEncoder.encode("test"))
-                .regNo(passwordEncoder.encode("910411-1656116"))
+                .regNo(aes128Config.encryptAes("910411-1656116"))
                 .build();
 
         // when

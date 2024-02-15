@@ -1,5 +1,6 @@
 package com.szs.yongil.service.member;
 
+import com.szs.yongil.config.AES128Config;
 import com.szs.yongil.domain.member.MemberEntity;
 import com.szs.yongil.dto.member.MemberDto;
 import com.szs.yongil.dto.member.MemberSignDto;
@@ -25,6 +26,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepo;
+    private final AES128Config aes128Config;
 
     /**
      * 유저 회원가입
@@ -40,7 +42,7 @@ public class MemberServiceImpl implements MemberService {
                     .userId(argMemberSignDto.getUserId())
                     .name(argMemberSignDto.getName())
                     .password(passwordEncoder.encode(argMemberSignDto.getPassword()))
-                    .regNo(passwordEncoder.encode(argMemberSignDto.getRegNo()))
+                    .regNo(aes128Config.encryptAes(argMemberSignDto.getRegNo()))
                     .build();
 
             memberRepo.save(memberEntity);
@@ -73,9 +75,30 @@ public class MemberServiceImpl implements MemberService {
                 .builder()
                 .id(memberEntity.getId())
                 .userId(memberEntity.getUserId())
+                .name(memberEntity.getName())
                 .password(memberEntity.getPassword())
                 .regNo(memberEntity.getRegNo())
                 .build();
+    }
+
+    /**
+     * 멤버 엔티티 조회 기능
+     * @param argMemberId: 조회 할 member_id
+     * @return
+     */
+    @Override
+    public MemberEntity getMemberEntityByUserId(Long argMemberId) {
+        MemberEntity result = null;
+        try {
+            Optional<MemberEntity> byId = memberRepo.findById(argMemberId);
+            if (byId.isPresent()) {
+                result = byId.get();
+            }
+        } catch (JpaSystemException e) {
+            log.error("{}", e.getLocalizedMessage());
+        }
+
+        return result;
     }
 
     /**

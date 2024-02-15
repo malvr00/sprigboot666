@@ -1,14 +1,16 @@
 package com.szs.yongil.controller.member;
 
-import com.szs.yongil.dto.member.MemberLoginDto;
 import com.szs.yongil.dto.member.MemberSignDto;
-import com.szs.yongil.service.member.MemberServiceImpl;
+import com.szs.yongil.service.client.ClientService;
+import com.szs.yongil.service.member.MemberService;
 import com.szs.yongil.util.exception.ApiCustomException;
 import com.szs.yongil.util.exception.enums.ErrorEnum;
 import com.szs.yongil.util.member.MemberUtil;
 import com.szs.yongil.vo.member.MemberSignVO;
+import com.szs.yongil.vo.scrap.ScrapVO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MemberPostController {
 
-    private final MemberServiceImpl memberServiceImpl;
+    private final MemberService memberService;
+    private final ClientService clientService;
     private final MemberUtil memberUtil;
 
     @PostMapping("/signup")
@@ -38,7 +41,13 @@ public class MemberPostController {
             throw new ApiCustomException(ErrorEnum.USER_INFO_02);
         }
 
-        MemberSignVO result = memberServiceImpl.signup(memberSignDto);
+        MemberSignVO result = memberService.signup(memberSignDto);
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/scrap")
+    public ResponseEntity<ScrapVO> scrap() {
+        ScrapVO result = clientService.getScrapData();
         return ResponseEntity.ok(result);
     }
 }

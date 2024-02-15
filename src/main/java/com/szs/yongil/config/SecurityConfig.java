@@ -62,19 +62,4 @@ public class SecurityConfig {
                 .build();
     }
 
-//    // AuthenticationManager password 인증
-//    private AuthenticationManager authenticationManager(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(memberService).passwordEncoder(passwordEncoder);
-//        return auth.build();
-//    }
-//
-//    // Login Authentication
-//    private Filter getAuthenticationFilter() throws Exception {
-//        AuthenticationFilter authenticationFilter = new AuthenticationFilter(memberService, env);
-//        AuthenticationManagerBuilder builder = new AuthenticationManagerBuilder(objectPostProcessor);
-//        authenticationFilter.setFilterProcessesUrl("/szs/login");
-//        authenticationFilter.setAuthenticationManager(authenticationManager(builder));
-//        return authenticationFilter;
-//    }
-
 }

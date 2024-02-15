@@ -1,5 +1,6 @@
 package com.szs.yongil.util;
 
+import com.szs.yongil.config.AES128Config;
 import com.szs.yongil.domain.member.MemberEntity;
 import com.szs.yongil.dto.member.MemberSignDto;
 import com.szs.yongil.repository.member.MemberRepository;
@@ -22,6 +23,9 @@ public class MemberUtilTest {
     PasswordEncoder passwordEncoder;
 
     @Autowired
+    AES128Config aes128Config;
+
+    @Autowired
     MemberUtil memberUtil;
 
     /**
@@ -35,7 +39,7 @@ public class MemberUtilTest {
                 .userId("hong12")
                 .name("홍길동")
                 .password(passwordEncoder.encode("test"))
-                .regNo(passwordEncoder.encode("910411-1656116"))
+                .regNo(aes128Config.encryptAes("910411-1656116"))
                 .build();
 
         MemberSignDto memberSignB = new MemberSignDto();
@@ -63,7 +67,7 @@ public class MemberUtilTest {
                 .userId("hong12")
                 .name("홍길동")
                 .password(passwordEncoder.encode("test"))
-                .regNo(passwordEncoder.encode("910411-1656116"))
+                .regNo(aes128Config.encryptAes("910411-1656116"))
                 .build();
 
         MemberSignDto memberSignB = new MemberSignDto();

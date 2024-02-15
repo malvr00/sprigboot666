@@ -18,7 +18,8 @@ public class MemberSignDto {
     @NotNull(message = "User name does not exit")
     private String name;
 
-    @NotNull(message = "User regNo does not exit")
     @Size(min = 14, max = 14)
+    @NotNull(message = "User regNo does not exit")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String regNo;
 }

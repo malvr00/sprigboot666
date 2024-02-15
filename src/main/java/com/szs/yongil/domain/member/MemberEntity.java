@@ -1,6 +1,5 @@
 package com.szs.yongil.domain.member;
 
-import com.szs.yongil.dto.member.MemberSignDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -44,4 +43,5 @@ public class MemberEntity {
         this.password = password;
         this.regNo = regNo;
     }
+
 }
