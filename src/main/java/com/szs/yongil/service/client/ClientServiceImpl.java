@@ -4,11 +4,9 @@ package com.szs.yongil.service.client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.szs.yongil.client.SzsClient;
 import com.szs.yongil.common.Const;
-import com.szs.yongil.common.jwt.TokenProvider;
 import com.szs.yongil.config.AES128Config;
 import com.szs.yongil.domain.scrap.ScrapEntity;
 import com.szs.yongil.dto.client.ScrapClientDto;
-import com.szs.yongil.dto.client.ScrapDto;
 import com.szs.yongil.dto.member.MemberDto;
 import com.szs.yongil.service.member.MemberService;
 import com.szs.yongil.service.scrap.ScrapService;
@@ -77,7 +75,8 @@ public class ClientServiceImpl implements ClientService {
             Map data = (Map) map.get(Const.SCRAP.JSON_DATA);
             Map jsonList = (Map) data.get(Const.SCRAP.JSON_LIST);
             List deduction = (List) jsonList.get(Const.SCRAP.INCOME_DEDUCTION);
-            // 소득공제
+            List salary = (List) jsonList.get(Const.SCRAP.SALARY);
+            // 산출세액
             String taxCredit = (String) jsonList.get(Const.SCRAP.TAX_CREDIT);
             // 보험료
             String premium = "";
@@ -89,6 +88,8 @@ public class ClientServiceImpl implements ClientService {
             String donation = "";
             // 퇴직연금
             String pension = "";
+            // 총 급여
+            String salaryT = "";
 
             if (!deduction.isEmpty()) {
                 for (Object o : deduction) {
@@ -112,6 +113,23 @@ public class ClientServiceImpl implements ClientService {
                 }
             }
 
+            if (!salary.isEmpty()) {
+                boolean flag = false;
+                for (Object o : salary) {
+                    if(flag) break;
+                    Map salaryMap = mapper.convertValue(o, Map.class);
+                    for (Object key : salaryMap.keySet()) {
+                        if (key instanceof String) {
+                            if (String.valueOf(key).equals(Const.SCRAP.TOTAL_SALARY)) {
+                                salaryT = (String) salaryMap.get(key);
+                                flag = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
             ScrapEntity scrapEntity = ScrapEntity
                     .builder()
                     .taxCredit(new BigDecimal(taxCredit.replaceAll(Const.SCRAP.CASTING_COMMA, "")))
@@ -120,6 +138,7 @@ public class ClientServiceImpl implements ClientService {
                     .education(new BigDecimal(education.replaceAll(Const.SCRAP.CASTING_COMMA, "")))
                     .donation(new BigDecimal(donation.replaceAll(Const.SCRAP.CASTING_COMMA, "")))
                     .pension(new BigDecimal(pension.replaceAll(Const.SCRAP.CASTING_COMMA, "")))
+                    .salaryT(new BigDecimal(salaryT.replaceAll(Const.SCRAP.CASTING_COMMA, "")))
                     .build();
 
             Long scrapId = scrapService.saveScrapData(scrapEntity, argMemberId);

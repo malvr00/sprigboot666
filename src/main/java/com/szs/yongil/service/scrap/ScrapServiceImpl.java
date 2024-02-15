@@ -21,10 +21,10 @@ public class ScrapServiceImpl implements ScrapService {
 
     @Override
     @Transactional
-    public Long saveScrapData(ScrapEntity argScrapEntity, Long argUserId) {
+    public Long saveScrapData(ScrapEntity argScrapEntity, Long memberId) {
         ScrapEntity result = null;
         try {
-            MemberEntity memberEntity = memberService.getMemberEntityByUserId(argUserId);
+            MemberEntity memberEntity = memberService.getMemberEntityByMemberId(memberId);
             argScrapEntity.setMemberData(memberEntity);
             result = scrapRepo.save(argScrapEntity);
         } catch (JpaSystemException e) {

@@ -84,15 +84,40 @@ public class MemberServiceImpl implements MemberService {
     /**
      * 멤버 엔티티 조회 기능
      * @param argMemberId: 조회 할 member_id
-     * @return
+     * @return memberEntity
      */
     @Override
-    public MemberEntity getMemberEntityByUserId(Long argMemberId) {
+    public MemberEntity getMemberEntityByMemberId(Long argMemberId) {
         MemberEntity result = null;
         try {
             Optional<MemberEntity> byId = memberRepo.findById(argMemberId);
             if (byId.isPresent()) {
                 result = byId.get();
+            }
+        } catch (JpaSystemException e) {
+            log.error("{}", e.getLocalizedMessage());
+        }
+
+        return result;
+    }
+
+    /**
+     * 멤버 엔티티 조회 기능
+     * @param argUserId: 조회 할 user_id
+     * @return memberEntity
+     */
+    @Override
+    public MemberEntity getMemberEntityByUserId(String argUserId) {
+        MemberEntity result = null;
+        try {
+            Optional<MemberEntity> byMemberEntity = memberRepo.findByUserId(argUserId);
+
+            if (byMemberEntity.isEmpty()) {
+                throw new UsernameNotFoundException(argUserId);
+            }
+
+            if (byMemberEntity.isPresent()) {
+                result = byMemberEntity.get();
             }
         } catch (JpaSystemException e) {
             log.error("{}", e.getLocalizedMessage());

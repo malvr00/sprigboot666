@@ -1,5 +1,6 @@
 package com.szs.yongil.domain.member;
 
+import com.szs.yongil.domain.scrap.ScrapEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -36,12 +37,19 @@ public class MemberEntity {
     @Column(nullable = false)
     private String regNo;
 
+    @OneToOne(mappedBy = "memberEntity")
+    private ScrapEntity scrapEntity;
+
     @Builder
     public MemberEntity(String userId, String name, String password, String regNo) {
         this.userId = userId;
         this.name = name;
         this.password = password;
         this.regNo = regNo;
+    }
+
+    public void setScrapEntity(ScrapEntity scrapEntity) {
+        this.scrapEntity = scrapEntity;
     }
 
 }

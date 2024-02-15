@@ -1,5 +1,6 @@
 package com.szs.yongil.util.member;
 
+import com.szs.yongil.config.AES128Config;
 import com.szs.yongil.domain.member.MemberEntity;
 import com.szs.yongil.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class MemberUtil {
     private final MemberRepository memberRepo;
     private final PasswordEncoder passwordEncoder;
     private final MemberRegisterUtil memberRegisterUtil;
+    private final AES128Config aes128Config;
 
     /**
      * 유저 중복 회원가입 체크
@@ -33,7 +35,7 @@ public class MemberUtil {
 
             if (!members.isEmpty()) {
                 for (MemberEntity tmp : members) {
-                    if (passwordEncoder.matches(argRegNo, tmp.getRegNo())) {
+                    if (aes128Config.decryptAes(tmp.getRegNo()).equals(argRegNo)) {
                         return true;
                     }
                 }

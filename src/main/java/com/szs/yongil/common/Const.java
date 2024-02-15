@@ -1,12 +1,13 @@
 package com.szs.yongil.common;
 
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public class Const {
-    /**
+    /**================================================================
      * Enum 관리
-     */
+     ================================================================*/
 
     /**
      * JWT 관련
@@ -49,6 +50,10 @@ public class Const {
 
         public static final String T_AMOUNT = "총납임금액";
 
+        public static final String SALARY = "급여";
+
+        public static final String TOTAL_SALARY = "총지급액";
+
         public static final String INCOME_DEDUCTION = "소득공제";
 
         public static final String TAX_CREDIT = "산출세액";
@@ -60,5 +65,26 @@ public class Const {
         public static final String CASTING_COMMA = ",";
 
     }
+
+    public interface CALCULATE {
+
+        public static final BigDecimal CREDIT = new BigDecimal("0.55");
+
+        public static final BigDecimal INSURANCE_DEDUCTION = new BigDecimal("0.12");
+
+        public static final BigDecimal MEDICAL_PERCENT_1 = new BigDecimal("0.03");
+
+        public static final BigDecimal MEDICAL_PERCENT_2 = new BigDecimal("0.15");
+
+        public static final BigDecimal BASE_PRICE = new BigDecimal("130000");
+
+    }
+
+    public interface PATTERN {
+
+        public static final String TEN_MILLION_PATTERN = "###,###";
+
+    }
+
 
 }

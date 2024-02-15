@@ -12,5 +12,7 @@ public interface MemberService extends UserDetailsService {
 
     MemberDto getUserDetailsByUserId(String argUserId);
 
-    MemberEntity getMemberEntityByUserId(Long argMemberId);
+    MemberEntity getMemberEntityByMemberId(Long argMemberId);
+
+    MemberEntity getMemberEntityByUserId(String argUserId);
 }

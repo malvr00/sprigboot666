@@ -62,6 +62,7 @@ public class ScarpServiceTest {
                 .education(new BigDecimal(100))
                 .donation(new BigDecimal(100))
                 .pension(new BigDecimal(100))
+                .salaryT(new BigDecimal(100))
                 .build();
 
 
@@ -94,6 +95,7 @@ public class ScarpServiceTest {
                 .education(new BigDecimal(100))
                 .donation(new BigDecimal(100))
                 .pension(new BigDecimal(100))
+                .salaryT(new BigDecimal(100))
                 .build();
 
         ScrapEntity scrapEntityB = ScrapEntity
@@ -104,6 +106,7 @@ public class ScarpServiceTest {
                 .education(new BigDecimal(100))
                 .donation(new BigDecimal(100))
                 .pension(new BigDecimal(100))
+                .salaryT(new BigDecimal(100))
                 .build();
 
 

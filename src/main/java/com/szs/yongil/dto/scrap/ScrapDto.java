@@ -1,4 +1,4 @@
-package com.szs.yongil.dto.client;
+package com.szs.yongil.dto.scrap;
 
 import lombok.Builder;
 import lombok.Data;

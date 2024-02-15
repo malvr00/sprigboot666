@@ -51,19 +51,24 @@ public class ScrapEntity {
     @Column(precision = 19, scale = 6)
     private BigDecimal pension;
 
+    @Column(precision = 19, scale = 6)
+    private BigDecimal salaryT;
+
     @Builder
     public ScrapEntity(BigDecimal taxCredit, BigDecimal premium, BigDecimal medical,
-                       BigDecimal education, BigDecimal donation, BigDecimal pension) {
+                       BigDecimal education, BigDecimal donation, BigDecimal pension, BigDecimal salaryT) {
         this.taxCredit = taxCredit;
         this.premium = premium;
         this.medical = medical;
         this.education = education;
         this.donation = donation;
         this.pension = pension;
+        this.salaryT = salaryT;
     }
 
     public void setMemberData(MemberEntity memberEntity) {
         this.memberEntity = memberEntity;
+        memberEntity.setScrapEntity(this);
     }
 
 }
