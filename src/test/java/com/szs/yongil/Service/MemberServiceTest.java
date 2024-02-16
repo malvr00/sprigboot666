@@ -5,6 +5,7 @@ import com.szs.yongil.service.member.MemberService;
 import com.szs.yongil.util.exception.ApiCustomException;
 import com.szs.yongil.vo.member.MemberSignVO;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +23,7 @@ public class MemberServiceTest {
     PasswordEncoder passwordEncoder;
 
     @Test
+    @DisplayName("MemberService 멤버 저장 메소드 테스트")
     public void signSuccessTest() throws ApiCustomException {
         // given
         MemberSignDto memberSignDto = new MemberSignDto();
