@@ -4,7 +4,7 @@ use: Java17, Spring Boot 3.2.2, JPA, H2, Gradle <br/>
 
 proejct <br/>
 ⎮- client (Feignclient) <br/>
-⎮- common <br/>   
+⎮- common <br/>
 ⎮   ⌞ jwt <br/>
 ⎮   ⌞ Const.class (정적변수 관리) <br/>
 ⎮   ⌞ CustomException.class <br/>
