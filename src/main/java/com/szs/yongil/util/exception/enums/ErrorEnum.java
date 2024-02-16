@@ -18,9 +18,15 @@ public enum ErrorEnum {
 
     /*
         NOT_XXX
-        Request 관련
+        Request 에러
      */
     NOT_SCRAP_DATA(HttpStatus.NOT_FOUND, "Scrap 정보가 없습니다"),
+
+    /*
+        FEIGN_XXX
+        Feign client 에러
+     */
+    FEIGN_FAIL(HttpStatus.NOT_IMPLEMENTED, "Feign client 통신 에러")
     ;
 
 

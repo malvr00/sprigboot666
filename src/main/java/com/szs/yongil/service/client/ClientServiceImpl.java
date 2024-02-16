@@ -4,12 +4,15 @@ package com.szs.yongil.service.client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.szs.yongil.client.SzsClient;
 import com.szs.yongil.common.Const;
+import com.szs.yongil.common.CustomExceptionHandler;
 import com.szs.yongil.config.AES128Config;
 import com.szs.yongil.domain.scrap.ScrapEntity;
 import com.szs.yongil.dto.client.ScrapClientDto;
 import com.szs.yongil.dto.member.MemberDto;
 import com.szs.yongil.service.member.MemberService;
 import com.szs.yongil.service.scrap.ScrapService;
+import com.szs.yongil.util.exception.ApiCustomException;
+import com.szs.yongil.util.exception.enums.ErrorEnum;
 import com.szs.yongil.vo.scrap.ScrapVO;
 import feign.Response;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +40,7 @@ public class ClientServiceImpl implements ClientService {
      * SZS 스크래핑 가져온 후 성공하면 DB에 저장하는 메소드
      */
     @Override
-    public ScrapVO getScrapData() {
+    public ScrapVO getScrapData() throws ApiCustomException {
         ScrapVO result = null;
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         MemberDto memberDto = memberService.getUserDetailsByUserId(userDetails.getUsername());
@@ -56,6 +59,11 @@ public class ClientServiceImpl implements ClientService {
         }
         if (scrap.status() == 200) {
             result = saveScrap(scrap, memberDto.getId());
+
+            if (result == null) {
+                throw new ApiCustomException(ErrorEnum.FEIGN_FAIL);
+            }
+
         }
 
         return result;
@@ -72,6 +80,9 @@ public class ClientServiceImpl implements ClientService {
             ObjectMapper mapper = new ObjectMapper();
 
             Map map = mapper.readValue(argScrap.body().asInputStream(), Map.class);
+
+            if(!map.get("status").equals("success")) return null;
+
             Map data = (Map) map.get(Const.SCRAP.JSON_DATA);
             Map jsonList = (Map) data.get(Const.SCRAP.JSON_LIST);
             List deduction = (List) jsonList.get(Const.SCRAP.INCOME_DEDUCTION);

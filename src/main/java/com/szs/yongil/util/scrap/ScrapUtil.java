@@ -35,8 +35,9 @@ public class ScrapUtil {
      * @param argSalaryT: 총 급여
      */
     public BigDecimal getMedicalDeduction(BigDecimal argMedical, BigDecimal argSalaryT) {
-        BigDecimal calMS = argSalaryT.multiply(Const.CALCULATE.MEDICAL_PERCENT_1).subtract(argMedical);
-        BigDecimal totalCal = calMS.multiply(Const.CALCULATE.MEDICAL_PERCENT_2);
+        BigDecimal calMS = argSalaryT.multiply(Const.CALCULATE.MEDICAL_PERCENT_1);
+        BigDecimal subtract = argMedical.subtract(calMS);
+        BigDecimal totalCal = subtract.multiply(Const.CALCULATE.MEDICAL_PERCENT_2);
         return totalCal.compareTo(BigDecimal.ZERO) > 0 ? totalCal : BigDecimal.ZERO;
     }
 

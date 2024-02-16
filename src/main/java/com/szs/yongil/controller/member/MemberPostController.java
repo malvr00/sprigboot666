@@ -46,7 +46,7 @@ public class MemberPostController {
     }
 
     @PostMapping("/scrap")
-    public ResponseEntity<ScrapVO> scrap() {
+    public ResponseEntity<ScrapVO> scrap() throws ApiCustomException {
         ScrapVO result = clientService.getScrapData();
         return ResponseEntity.ok(result);
     }
