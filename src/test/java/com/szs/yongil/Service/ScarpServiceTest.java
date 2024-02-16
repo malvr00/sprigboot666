@@ -68,15 +68,15 @@ public class ScarpServiceTest {
 
         // when
         MemberEntity saveMember = memberRepository.save(memberA);
-        Long scrapId = scrapService.saveScrapData(scrapEntity, saveMember.getId());
-        ScrapEntity findScrap = scrapRepo.findById(scrapId).get();
+        ScrapEntity scrapId = scrapService.saveScrapData(scrapEntity, saveMember.getId());
+        ScrapEntity findScrap = scrapRepo.findById(scrapId.getId()).get();
 
         // then
-        Assertions.assertThat(scrapId).isEqualTo(findScrap.getId());
+        Assertions.assertThat(scrapId.getId()).isEqualTo(findScrap.getId());
     }
 
     @Test
-    @DisplayName("스크래핑 중복 Exception 테스트")
+    @DisplayName("스크래핑 업데이트 테스트")
     public void scrapSaveFailTest() {
         // given
         MemberEntity memberA = MemberEntity
@@ -100,7 +100,7 @@ public class ScarpServiceTest {
 
         ScrapEntity scrapEntityB = ScrapEntity
                 .builder()
-                .taxCredit(new BigDecimal(100))
+                .taxCredit(new BigDecimal(101))
                 .premium(new BigDecimal(100))
                 .medical(new BigDecimal(100))
                 .education(new BigDecimal(100))
@@ -112,11 +112,11 @@ public class ScarpServiceTest {
 
         // when
         MemberEntity saveMember = memberRepository.save(memberA);
-        scrapService.saveScrapData(scrapEntityA, saveMember.getId());
+        ScrapEntity scrapEntity1 = scrapService.saveScrapData(scrapEntityA, saveMember.getId());
+        ScrapEntity scrapEntity2 = scrapService.saveScrapData(scrapEntityB, saveMember.getId());
 
         // then
-        assertThrows(DataIntegrityViolationException.class, () -> {
-            scrapService.saveScrapData(scrapEntityB, saveMember.getId());
-        });
+        Assertions.assertThat(scrapEntity2.getTaxCredit()).isEqualTo(new BigDecimal("101"));
+
     }
 }

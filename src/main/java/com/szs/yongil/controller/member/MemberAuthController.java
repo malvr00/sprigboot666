@@ -4,6 +4,8 @@ import com.szs.yongil.common.Const;
 import com.szs.yongil.common.jwt.TokenProvider;
 import com.szs.yongil.dto.member.MemberLoginDto;
 import com.szs.yongil.vo.member.MemberLoginVO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -22,12 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/szs")
 @RequiredArgsConstructor
+@Tag(name = "유저 로그인 컨트롤러", description = "로그인 API 입니다.")
 public class MemberAuthController {
 
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     @PostMapping("/login")
+    @Operation(summary = "사용자 로그인", description = "사용자 로그인하는 API 입니다. (Response에 token을 활용합니다)")
     public ResponseEntity<MemberLoginVO> authorize(
             @Valid @RequestBody MemberLoginDto memberLoginDto
     ) {

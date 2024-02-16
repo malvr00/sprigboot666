@@ -71,4 +71,14 @@ public class ScrapEntity {
         memberEntity.setScrapEntity(this);
     }
 
+    public void updateScrap(ScrapEntity scrapEntity) {
+        this.taxCredit = scrapEntity.getTaxCredit();
+        this.premium = scrapEntity.getPremium();
+        this.medical = scrapEntity.getMedical();
+        this.education = scrapEntity.getEducation();
+        this.donation = scrapEntity.getDonation();
+        this.pension = scrapEntity.getPension();
+        this.salaryT = scrapEntity.getSalaryT();
+    }
+
 }

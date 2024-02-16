@@ -152,9 +152,9 @@ public class ClientServiceImpl implements ClientService {
                     .salaryT(new BigDecimal(salaryT.replaceAll(Const.SCRAP.CASTING_COMMA, "")))
                     .build();
 
-            Long scrapId = scrapService.saveScrapData(scrapEntity, argMemberId);
+            ScrapEntity scrapId = scrapService.saveScrapData(scrapEntity, argMemberId);
 
-            result = new ScrapVO(argMemberId, scrapId);
+            result = new ScrapVO(argMemberId, scrapId.getId());
         } catch (IOException e) {
             log.error("{}", e.getLocalizedMessage());
         }

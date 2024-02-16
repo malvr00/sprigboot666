@@ -52,6 +52,7 @@ public class SecurityConfig {
                                 .requestMatchers("/szs/signup").permitAll()
                                 .requestMatchers("/szs/login").permitAll()
                                 .requestMatchers("/error/**").permitAll()
+                                .requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
                                 .requestMatchers(PathRequest.toH2Console()).permitAll()
                                 .anyRequest().authenticated()
                 )
